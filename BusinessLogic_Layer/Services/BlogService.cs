@@ -1,9 +1,6 @@
 ﻿using BusinessLogic_Layer.Interfaces;
 using DataAccess_Layer.Repos.EntityRepositoryIntefaces;
 using ConsoleApp31.Entity;
-using ConsoleApp31.Repos;
-using Microsoft.EntityFrameworkCore;
-
 namespace BusinessLogic_Layer.Services
 {
     public class BlogService : IBlogService
