@@ -1,18 +1,20 @@
-﻿using ConsoleApp31.DataBase;
-using ConsoleApp31.Entity;
+﻿using BusinessLogic_Layer.DataBaseContext;
+using BusinessLogic_Layer.Interfaces;
+using BusinessLogic_Layer.Services;
 using ConsoleApp31.Menu;
-using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleApp31
 {
     public class Login
     {
         private readonly BloggingDbContext _context;
-        private readonly BlogService _service;
-        public Login(BloggingDbContext context, BlogService service)
+        private readonly IBlogService _blogService;
+        private readonly ICommentService _commentService;
+        public Login(BloggingDbContext context, IBlogService service, ICommentService commentService)
         {
             _context = context;
-            _service = service;
+            _blogService = service;
+            _commentService = commentService;
         }
         public void Authenticate(string password)
         {
@@ -21,7 +23,7 @@ namespace ConsoleApp31
 
             if (user != null)
             {
-                BlogControllerMenu menu = new BlogControllerMenu(user.Id, _service);
+                BlogControllerMenu menu = new BlogControllerMenu(user.Id, _blogService, _commentService);
                 menu.BlogMenu();
             }
         }

@@ -1,7 +1,8 @@
-﻿using ConsoleApp31.DataBase;
+﻿using BusinessLogic_Layer.DataBaseContext;
+using ConsoleApp31.DataBase;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleApp31.Repos
+namespace DataAccessLayer.Repository.GenericRepository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

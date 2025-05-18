@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp31.Repos
+﻿namespace DataAccessLayer.Repository.GenericRepository
 {
     public interface IRepository<T> where T : class
     {

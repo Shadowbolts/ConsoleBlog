@@ -1,4 +1,5 @@
-﻿using ConsoleApp31.DataBase;
+﻿using BusinessLogic_Layer.Interfaces;
+using BusinessLogic_Layer.Services;
 using ConsoleApp31.Enums;
 
 namespace ConsoleApp31.Menu.BlogControllerSubMenus
@@ -6,11 +7,11 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
     public class BlogCRUDMenu
     {
         private readonly int _id;
-        private readonly BlogService _service;
-        public BlogCRUDMenu(int id, BlogService service)
+        private readonly IBlogService _blogService;
+        public BlogCRUDMenu(int id, IBlogService blogService)
         {
             _id = id;
-            _service = service;
+            _blogService = blogService;
         }
         public void BlogMenu()
         {
@@ -24,20 +25,20 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                     {
                         case CRUDMenuOptions.Remove:
                             {
-                                var blogs = _service.GetAllBlogs();
+                                var blogs = _blogService.GetAllBlog();
                                 int blogId = MenuHelper.BlogPrint(blogs);
-                                _service.DeleteBlogWithComments(blogId);
+                                _blogService.DeleteBlog(blogId);
                                 break;
                             }
                         case CRUDMenuOptions.Update:
                             {
-                                var blogs = _service.GetAllBlogs();
+                                var blogs = _blogService.GetAllBlog();
                                 int blogId = MenuHelper.BlogPrint(blogs);
                                 Console.Write("Введіть нову назву блога: ");
                                 string newTitle = Console.ReadLine()!;
                                 Console.Write("Введіть новий вміст блога: ");
                                 string newContent = Console.ReadLine()!;
-                                _service.UpdateBlog(blogId, newTitle, newContent);
+                                _blogService.UpdateBlog(blogId, newTitle, newContent);
                                 break;
                             }
                         case CRUDMenuOptions.Add:
@@ -46,7 +47,7 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                                 string title = Console.ReadLine()!;
                                 Console.Write("Введіть вміст блога: ");
                                 string content = Console.ReadLine()!;
-                                _service.AddBlogByCurrentAuthor(title, content, _id);
+                                _blogService.AddBlog(title, content, _id);
                                 break;
                             }
                         case CRUDMenuOptions.Exit:

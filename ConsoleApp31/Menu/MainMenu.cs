@@ -1,16 +1,17 @@
-﻿using ConsoleApp31.DataBase;
+﻿using BusinessLogic_Layer.Interfaces;
+using BusinessLogic_Layer.Services;
 using ConsoleApp31.Enums;
 
 namespace ConsoleApp31.Menu
 {
     public class MainMenu
     {
-        private readonly BlogService blogService;
-        private readonly Login login;
-        public MainMenu(BlogService blogService, Login login)
+        private readonly IBlogService _blogService;
+        private readonly Login _login;
+        public MainMenu(IBlogService blogService, Login login)
         {
-            this.blogService = blogService;
-            this.login = login;
+            _blogService = blogService;
+            _login = login;
         }
         public void Menu()
         {
@@ -27,12 +28,12 @@ namespace ConsoleApp31.Menu
                                 Console.Clear();
                                 Console.Write("Введіть пароль: ");
                                 string password = Console.ReadLine()!;
-                                login.Authenticate(password);
+                                _login.Authenticate(password);
                                 break;
                             }
                         case MainMenuOptions.CheckBlogs:
                             {
-                                blogService.ShowAllBlogsWithDetails();
+                                _blogService.ShowAllBlogsWithDetails();
                                 Console.ReadLine();
                                 break;
                             }

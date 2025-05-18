@@ -1,4 +1,5 @@
-﻿using ConsoleApp31.DataBase;
+﻿using BusinessLogic_Layer.Interfaces;
+using BusinessLogic_Layer.Services;
 using ConsoleApp31.Enums;
 
 namespace ConsoleApp31.Menu.BlogControllerSubMenus
@@ -6,11 +7,13 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
     public class CommentaryCRUDMenu
     {
         private readonly int _id;
-        private readonly BlogService _service;
-        public CommentaryCRUDMenu(int id, BlogService service)
+        private readonly IBlogService _blogService;
+        private readonly ICommentService _commentService;
+        public CommentaryCRUDMenu(int id, IBlogService blogService, ICommentService commentService)
         {
             _id = id;
-            _service = service;
+            _blogService = blogService;
+            _commentService = commentService;
         }
         public void CommentMenu()
         {
@@ -24,31 +27,31 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                     {
                         case CRUDMenuOptions.Remove:
                             {
-                                var blogs = _service.GetAllBlogs();
+                                var blogs = _blogService.GetAllBlog();
                                 int blogId = MenuHelper.BlogPrint(blogs);
-                                var comments = _service.GetCommentsByBlog(blogId);
+                                var comments = _commentService.GetCommentsByBlog(blogId);
                                 int commentId = MenuHelper.CommentPrint(comments);
-                                _service.DeleteComment(commentId);
+                                _commentService.DeleteComment(commentId);
                                 break;
                             }
                         case CRUDMenuOptions.Update:
                             {
-                                var blogs = _service.GetAllBlogs();
+                                var blogs = _blogService.GetAllBlog();
                                 int blogId = MenuHelper.BlogPrint(blogs);
-                                var comments = _service.GetCommentsByBlog(blogId);
+                                var comments = _commentService.GetCommentsByBlog(blogId);
                                 int commentId = MenuHelper.CommentPrint(comments);
                                 Console.Write("Введіть новий текст: ");
                                 string newContent = Console.ReadLine()!;
-                                _service.UpdateCommentary(commentId, newContent);
+                                _commentService.UpdateComment(commentId, newContent);
                                 break;
                             }
                         case CRUDMenuOptions.Add:
                             {
-                                var blogs = _service.GetAllBlogs();
+                                var blogs = _blogService.GetAllBlog();
                                 int blogId = MenuHelper.BlogPrint(blogs);
                                 Console.Write("Введіть текст: ");
                                 string content = Console.ReadLine()!;
-                                _service.AddCommentToBlog(content, blogId, _id);
+                                _commentService.AddComment(content, blogId, _id);
                                 break;
                             }
                         case CRUDMenuOptions.Exit:

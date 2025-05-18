@@ -2,7 +2,7 @@
 using ConsoleApp31.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleApp31.DataBase
+namespace BusinessLogic_Layer.DataBaseContext
 {
     public class BloggingDbContext : DbContext
     {

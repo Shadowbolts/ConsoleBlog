@@ -1,4 +1,5 @@
-﻿using ConsoleApp31.DataBase;
+﻿using BusinessLogic_Layer.Interfaces;
+using BusinessLogic_Layer.Services;
 using ConsoleApp31.Enums;
 using ConsoleApp31.Menu.BlogControllerSubMenus;
 
@@ -7,12 +8,14 @@ namespace ConsoleApp31.Menu
     public class BlogControllerMenu
     {
         private readonly int _id;
-        private readonly BlogService _service;
+        private readonly IBlogService _blogService;
+        private readonly ICommentService _commentService;
 
-        public BlogControllerMenu(int id, BlogService service)
+        public BlogControllerMenu(int id, IBlogService blogService, ICommentService commentService)
         {
             _id = id;
-            _service = service;
+            _blogService = blogService;
+            _commentService = commentService;
         }
         public void BlogMenu()
         {
@@ -26,13 +29,13 @@ namespace ConsoleApp31.Menu
                     {
                         case BlogMenuControllerOptions.Blog:
                             {
-                                BlogCRUDMenu blogMenu = new BlogCRUDMenu(_id, _service);
+                                BlogCRUDMenu blogMenu = new BlogCRUDMenu(_id, _blogService);
                                 blogMenu.BlogMenu();
                                 break;
                             }
                         case BlogMenuControllerOptions.Commentary:
                             {
-                                CommentaryCRUDMenu commentMenu = new CommentaryCRUDMenu(_id, _service);
+                                CommentaryCRUDMenu commentMenu = new CommentaryCRUDMenu(_id, _blogService, _commentService);
                                 commentMenu.CommentMenu();
                                 break;
                             }
