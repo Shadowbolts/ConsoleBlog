@@ -1,7 +1,6 @@
 ﻿using BusinessLogic_Layer.DataBaseContext;
-using ConsoleApp31.DataBase;
 using ConsoleApp31.Entity;
-using DataAccess_Layer.Repos.EntityRepositoryIntefaces;
+using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
 using DataAccessLayer.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 

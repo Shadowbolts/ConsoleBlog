@@ -1,58 +1,76 @@
 ﻿using BusinessLogic_Layer.Interfaces;
-using DataAccess_Layer.Repos.EntityRepositoryIntefaces;
 using ConsoleApp31.Entity;
+using DataAccessLayer.DataTransferObjects;
+using DataAccessLayer.Interfaces.UnitOfWorkInterface;
 namespace BusinessLogic_Layer.Services
 {
     public class BlogService : IBlogService
     {
-        private readonly IBlogRepository _blogRepository;
-        public BlogService(IBlogRepository blogRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public BlogService(IUnitOfWork unitOfWork)
         {
-            _blogRepository = blogRepository;
+            _unitOfWork = unitOfWork;
         }
-        public void AddBlog(string title, string content, int authorId)
+        public void AddBlog(BlogDto dto)
         {
             var blog = new BlogEntity
             {
-                Title = title,
-                Content = content,
-                AuthorId = authorId
+                Title = dto.Title,
+                Content = dto.Content,
+                AuthorId = dto.AuthorId
             };
-            _blogRepository.Add(blog);
+            _unitOfWork.Blogs.Add(blog);
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteBlog(int blogId)
         {
-            var blog = _blogRepository.GetBlogWithComments(blogId);
+            var blog = _unitOfWork.Blogs.GetBlogWithComments(blogId);
             if (blog != null)
             {
-                _blogRepository.Delete(blog);
+                _unitOfWork.Blogs.Delete(blog);
+                _unitOfWork.SaveChanges();
             }
         }
-        public void UpdateBlog(int blogId, string newTitle, string newContent)
+        public void UpdateBlog(BlogDto dto)
         {
-            var blog = _blogRepository.GetById(blogId);
-            blog.Title = newTitle;
-            blog.Content = newContent;
-            _blogRepository.Update(blog);
+            var blog = _unitOfWork.Blogs.GetById(dto.Id);
+            blog.Title = dto.Title;
+            blog.Content = dto.Content;
+            _unitOfWork.Blogs.Update(blog);
+            _unitOfWork.SaveChanges();
         }
-        public IEnumerable<BlogEntity> GetAllBlog()
+        public IEnumerable<BlogDto> GetAllBlog()
         {
-            return _blogRepository.GetAll();
+            var blogs = _unitOfWork.Blogs.GetBlogsWithAuthorsAndComments();
+
+            return blogs.Select(b => new BlogDto
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Content = b.Content,
+                Author = b.Author?.Login,
+                AuthorId = b.AuthorId,
+                Comments = b.Comments.Select(c => new CommentDto
+                {
+                    Content = c.Content,
+                    User = c.User?.Login
+                }).ToList()
+            });
         }
         public void ShowAllBlogsWithDetails()
         {
-            var blogs = _blogRepository.GetBlogsWithAuthorsAndComments();
+            var blogs = GetAllBlog();
             foreach (var blog in blogs)
             {
                 Console.WriteLine($"\nБлог: {blog.Title}");
-                Console.WriteLine($"Автор: {blog.Author?.Login}");
+                Console.WriteLine($"Автор: {blog.Author}");
                 Console.WriteLine($"Вміст: {blog.Content}");
                 Console.WriteLine("Коментарі:");
 
                 foreach (var comment in blog.Comments)
                 {
-                    Console.WriteLine($"- {comment.Content} (автор: {comment.User?.Login})");
+                    Console.WriteLine($"- {comment.Content} (автор: {comment.User})");
                 }
             }
         }

@@ -1,7 +1,8 @@
 ﻿using ConsoleApp31.Entity;
+using DataAccessLayer.DataTransferObjects;
 using DataAccessLayer.Repository.GenericRepository;
 
-namespace DataAccess_Layer.Repos.EntityRepositoryIntefaces
+namespace DataAccessLayer.Interfaces.EntityRepositoryIntefaces
 {
     public interface ICommentRepository : IRepository<CommentaryEntity>
     {

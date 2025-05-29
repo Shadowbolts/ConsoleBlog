@@ -1,13 +1,14 @@
 ﻿using ConsoleApp31.Entity;
+using DataAccessLayer.DataTransferObjects;
 
 namespace BusinessLogic_Layer.Interfaces
 {
     public interface IBlogService
     {
-        public void AddBlog(string title, string content, int authorId);
+        public void AddBlog(BlogDto dto);
         public void DeleteBlog(int blogId);
-        public void UpdateBlog(int blogId, string newTitle, string newContent);
-        public IEnumerable<BlogEntity> GetAllBlog();
+        public void UpdateBlog(BlogDto dto);
+        public IEnumerable<BlogDto> GetAllBlog();
         public void ShowAllBlogsWithDetails();
     }
 }

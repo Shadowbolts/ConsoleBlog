@@ -1,47 +1,67 @@
 ﻿using BusinessLogic_Layer.Interfaces;
 using ConsoleApp31.Entity;
-using DataAccess_Layer.Repos.EntityRepositoryIntefaces;
+using DataAccessLayer.DataTransferObjects;
+using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
+using DataAccessLayer.Interfaces.UnitOfWorkInterface;
 
 namespace BusinessLogic_Layer.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentRepository _commentRepository;
-        public CommentService(ICommentRepository commentRepository) 
+        private readonly IUnitOfWork _unitOfWork;
+        public CommentService(IUnitOfWork unitOfWork) 
         {
-            _commentRepository = commentRepository;
+            _unitOfWork = unitOfWork;
         }
-        public void AddComment(string content, int blogId, int userId)
+        public void AddComment(CommentDto dto)
         {
             var comment = new CommentaryEntity
             {
-                Content = content,
-                BlogId = blogId,
-                UserId = userId,
+                Content = dto.Content,
+                BlogId = dto.BlogId,
+                UserId = dto.UserId,
             };
-            _commentRepository.Add(comment);
+            _unitOfWork.Comments.Add(comment);
+            _unitOfWork.SaveChanges();
         }
         public void DeleteComment(int commentId)
         {
-            var comment = _commentRepository.GetById(commentId);
+            var comment = _unitOfWork.Comments.GetById(commentId);
             if (comment != null)
             {
-                _commentRepository.Delete(comment);
+                _unitOfWork.Comments.Delete(comment);
+                _unitOfWork.SaveChanges();
             }
         }
-        public void UpdateComment(int commentId, string newContent)
+        public void UpdateComment(CommentDto dto)
         {
-            var comments = _commentRepository.GetById(commentId);
-            comments.Content = newContent;
-            _commentRepository.Update(comments);
+            var comments = _unitOfWork.Comments.GetById(dto.Id);
+            comments.Content = dto.Content;
+            _unitOfWork.Comments.Update(comments);
+            _unitOfWork.SaveChanges();
         }
-        public IEnumerable<CommentaryEntity> GetAllComments()
+        public IEnumerable<CommentDto> GetAllComments()
         {
-            return _commentRepository.GetAll();
+            var comments = _unitOfWork.Comments.GetAll();
+
+            return comments.Select(c => new CommentDto
+            {
+                Content = c.Content,
+                User = c.User?.Login,
+                Id = c.Id
+            });
         }
-        public IEnumerable<CommentaryEntity> GetCommentsByBlog(int blogId)
+
+        public IEnumerable<CommentDto> GetCommentsByBlog(int blogId)
         {
-            return _commentRepository.GetCommentsByBlog(blogId);
+            var comments = _unitOfWork.Comments.GetCommentsByBlog(blogId);
+
+            return comments.Select(c => new CommentDto
+            {
+                Content = c.Content,
+                User = c.User?.Login,
+                Id = c.Id
+            });
         }
     }
 }

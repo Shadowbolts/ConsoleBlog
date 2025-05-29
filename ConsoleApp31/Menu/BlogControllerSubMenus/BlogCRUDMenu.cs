@@ -1,6 +1,7 @@
 ﻿using BusinessLogic_Layer.Interfaces;
 using BusinessLogic_Layer.Services;
 using ConsoleApp31.Enums;
+using DataAccessLayer.DataTransferObjects;
 
 namespace ConsoleApp31.Menu.BlogControllerSubMenus
 {
@@ -38,7 +39,13 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                                 string newTitle = Console.ReadLine()!;
                                 Console.Write("Введіть новий вміст блога: ");
                                 string newContent = Console.ReadLine()!;
-                                _blogService.UpdateBlog(blogId, newTitle, newContent);
+                                var blogDto = new BlogDto
+                                {
+                                    Id = blogId,
+                                    Title = newTitle,
+                                    Content = newContent
+                                };
+                                _blogService.UpdateBlog(blogDto);
                                 break;
                             }
                         case CRUDMenuOptions.Add:
@@ -47,7 +54,13 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                                 string title = Console.ReadLine()!;
                                 Console.Write("Введіть вміст блога: ");
                                 string content = Console.ReadLine()!;
-                                _blogService.AddBlog(title, content, _id);
+                                var blogDto = new BlogDto
+                                {
+                                    Title = title,
+                                    Content = content,
+                                    AuthorId = _id
+                                };
+                                _blogService.AddBlog(blogDto);
                                 break;
                             }
                         case CRUDMenuOptions.Exit:
