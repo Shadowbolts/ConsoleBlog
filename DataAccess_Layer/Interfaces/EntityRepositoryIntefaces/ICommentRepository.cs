@@ -1,5 +1,4 @@
 ﻿using ConsoleApp31.Entity;
-using DataAccessLayer.DataTransferObjects;
 using DataAccessLayer.Repository.GenericRepository;
 
 namespace DataAccessLayer.Interfaces.EntityRepositoryIntefaces
