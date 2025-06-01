@@ -1,7 +1,6 @@
 ﻿using BusinessLogic_Layer.Interfaces;
 using ConsoleApp31.Entity;
 using DataAccessLayer.DataTransferObjects;
-using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
 using DataAccessLayer.Interfaces.UnitOfWorkInterface;
 
 namespace BusinessLogic_Layer.Services
