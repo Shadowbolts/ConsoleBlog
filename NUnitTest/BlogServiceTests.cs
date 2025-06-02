@@ -1,9 +1,9 @@
 using DataAccessLayer.Interfaces.UnitOfWorkInterface;
 using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
-using BusinessLogic_Layer.Services;
+using BusinessLogicLayer.Services;
 using Moq;
-using DataAccessLayer.DataTransferObjects;
 using ConsoleApp31.Entity;
+using BusinessLogicLayer.DataTransferObjects.BlogDto;
 
 [TestFixture]
 public class BlogServiceTests
@@ -25,7 +25,7 @@ public class BlogServiceTests
     [Test]
     public void AddBlog_Should_Add_And_Save()
     {
-        var dto = new BlogDto { Title = "Title", Content = "Content", AuthorId = 1 };
+        var dto = new BlogCreateDto { Title = "Title", Content = "Content", AuthorId = 1 };
         _blogService.AddBlog(dto);
         _mockBlogRepository.Verify(r => r.Add(It.IsAny<BlogEntity>()), Times.Once);
         _mockUnitOfWork.Verify(u => u.SaveChanges(), Times.Once);

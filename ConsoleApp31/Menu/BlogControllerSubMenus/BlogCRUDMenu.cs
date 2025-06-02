@@ -1,5 +1,5 @@
-﻿using BusinessLogic_Layer.Interfaces;
-using BusinessLogic_Layer.Services;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using ConsoleApp31.Enums;
 using DataAccessLayer.DataTransferObjects;
 
@@ -41,11 +41,11 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                                 string newContent = Console.ReadLine()!;
                                 var blogDto = new BlogDto
                                 {
-                                    Id = blogId,
+                                    BlogId = blogId,
                                     Title = newTitle,
                                     Content = newContent
                                 };
-                                _blogService.UpdateBlog(blogDto);
+                                // _blogService.UpdateBlog(blogDto);
                                 break;
                             }
                         case CRUDMenuOptions.Add:
@@ -60,7 +60,7 @@ namespace ConsoleApp31.Menu.BlogControllerSubMenus
                                     Content = content,
                                     AuthorId = _id
                                 };
-                                _blogService.AddBlog(blogDto);
+                                //_blogService.AddBlog(blogDto);
                                 break;
                             }
                         case CRUDMenuOptions.Exit:

@@ -1,13 +1,12 @@
-﻿using ConsoleApp31.Entity;
-using DataAccessLayer.DataTransferObjects;
+﻿using BusinessLogicLayer.DataTransferObjects.BlogDto;
 
-namespace BusinessLogic_Layer.Interfaces
+namespace BusinessLogicLayer.Interfaces
 {
     public interface IBlogService
     {
-        public void AddBlog(BlogDto dto);
+        public void AddBlog(BlogCreateDto dto);
         public void DeleteBlog(int blogId);
-        public void UpdateBlog(BlogDto dto);
+        public void UpdateBlog(BlogUpdateDto dto);
         public IEnumerable<BlogDto> GetAllBlog();
         public void ShowAllBlogsWithDetails();
     }

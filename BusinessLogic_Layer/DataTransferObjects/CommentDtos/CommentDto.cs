@@ -1,8 +1,8 @@
-﻿namespace DataAccessLayer.DataTransferObjects
+﻿namespace BusinessLogicLayer.DataTransferObjects.CommentDtos
 {
     public class CommentDto
     {
-        public int Id { get; set; }
+        public int CommentId { get; set; }
         public int UserId { get; set; }
         public int BlogId { get; set; }
         public string Content { get; set; }

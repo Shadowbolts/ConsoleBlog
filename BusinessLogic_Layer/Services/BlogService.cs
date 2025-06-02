@@ -1,8 +1,9 @@
-﻿using BusinessLogic_Layer.Interfaces;
+﻿using BusinessLogicLayer.Interfaces;
 using ConsoleApp31.Entity;
-using DataAccessLayer.DataTransferObjects;
 using DataAccessLayer.Interfaces.UnitOfWorkInterface;
-namespace BusinessLogic_Layer.Services
+using BusinessLogicLayer.DataTransferObjects.BlogDto;
+using BusinessLogicLayer.DataTransferObjects.CommentDtos;
+namespace BusinessLogicLayer.Services
 {
     public class BlogService : IBlogService
     {
@@ -11,7 +12,7 @@ namespace BusinessLogic_Layer.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public void AddBlog(BlogDto dto)
+        public void AddBlog(BlogCreateDto dto)
         {
             var blog = new BlogEntity
             {
@@ -32,9 +33,9 @@ namespace BusinessLogic_Layer.Services
                 _unitOfWork.SaveChanges();
             }
         }
-        public void UpdateBlog(BlogDto dto)
+        public void UpdateBlog(BlogUpdateDto dto)
         {
-            var blog = _unitOfWork.Blogs.GetById(dto.Id);
+            var blog = _unitOfWork.Blogs.GetById(dto.BlogId);
             blog.Title = dto.Title;
             blog.Content = dto.Content;
             _unitOfWork.Blogs.Update(blog);
@@ -46,13 +47,16 @@ namespace BusinessLogic_Layer.Services
 
             return blogs.Select(b => new BlogDto
             {
-                Id = b.Id,
+                BlogId = b.Id,
                 Title = b.Title,
                 Content = b.Content,
                 Author = b.Author?.Login,
                 AuthorId = b.AuthorId,
                 Comments = b.Comments.Select(c => new CommentDto
                 {
+                    CommentId = c.Id,
+                    UserId = c.UserId,
+                    BlogId = c.BlogId,
                     Content = c.Content,
                     User = c.User?.Login
                 }).ToList()

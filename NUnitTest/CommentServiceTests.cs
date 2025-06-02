@@ -1,10 +1,9 @@
 ﻿using Moq;
-using BusinessLogic_Layer.Services;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Interfaces.UnitOfWorkInterface;
 using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
-using DataAccessLayer.DataTransferObjects;
+using BusinessLogicLayer.DataTransferObjects.CommentDtos;
 using ConsoleApp31.Entity;
-
 [TestFixture]
 public class CommentServiceTests
 {
@@ -25,7 +24,7 @@ public class CommentServiceTests
     [Test]
     public void AddComment_Should_Add_And_Save()
     {
-        var dto = new CommentDto { Content = "Test comment", BlogId = 1, UserId = 2 };
+        var dto = new CommentCreateDto { Content = "Test comment", BlogId = 1, UserId = 2 };
 
         _commentService.AddComment(dto);
 
@@ -64,10 +63,10 @@ public class CommentServiceTests
     [Test]
     public void UpdateComment_Should_Update_And_Save()
     {
-        var dto = new CommentDto { Id = 1, Content = "Updated content" };
+        var dto = new CommentUpdateDto { CommentId = 1, Content = "Updated content" };
         var commentEntity = new CommentaryEntity { Id = 1, Content = "Old content" };
 
-        _mockCommentRepository.Setup(r => r.GetById(dto.Id)).Returns(commentEntity);
+        _mockCommentRepository.Setup(r => r.GetById(dto.CommentId)).Returns(commentEntity);
 
         _commentService.UpdateComment(dto);
 
@@ -89,12 +88,12 @@ public class CommentServiceTests
             }
         };
 
-        _mockCommentRepository.Setup(r => r.GetAll()).Returns(comments);
+        _mockCommentRepository.Setup(r => r.GetAllWithUsersAndBlogs()).Returns(comments);
 
         var result = _commentService.GetAllComments().ToList();
 
         Assert.That(result.Count, Is.EqualTo(1));
-        Assert.That(result[0].Id, Is.EqualTo(1));
+        Assert.That(result[0].CommentId, Is.EqualTo(1));
         Assert.That(result[0].Content, Is.EqualTo("Test comment"));
         Assert.That(result[0].User, Is.EqualTo("testuser"));
     }
@@ -118,7 +117,7 @@ public class CommentServiceTests
         var result = _commentService.GetCommentsByBlog(blogId).ToList();
 
         Assert.That(result.Count, Is.EqualTo(1));
-        Assert.That(result[0].Id, Is.EqualTo(2));
+        Assert.That(result[0].CommentId, Is.EqualTo(2));
         Assert.That(result[0].Content, Is.EqualTo("Comment for blog"));
         Assert.That(result[0].User, Is.EqualTo("bloguser"));
     }

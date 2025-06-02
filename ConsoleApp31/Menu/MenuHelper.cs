@@ -9,7 +9,7 @@ namespace ConsoleApp31.Menu
             Console.WriteLine("Оберіть айді блогу:");
             foreach (var blog in blogs)
             {
-                Console.WriteLine($"{blog.Id}: {blog.Title}");
+                Console.WriteLine($"{blog.BlogId}: {blog.Title}");
             }
 
             int blogId = int.Parse(Console.ReadLine()!);
@@ -20,7 +20,7 @@ namespace ConsoleApp31.Menu
             Console.WriteLine("Оберіть коментарій:");
             foreach (var comment in comments)
             {
-                Console.WriteLine($"{comment.Id}: {comment.Content}");
+                Console.WriteLine($"{comment.CommentId}: {comment.Content}");
             }
             int commentId = int.Parse(Console.ReadLine()!);
             return commentId;

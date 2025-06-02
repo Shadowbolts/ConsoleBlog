@@ -1,6 +1,5 @@
-﻿using BusinessLogic_Layer.DataBaseContext;
-using BusinessLogic_Layer.Interfaces;
-using BusinessLogic_Layer.Services;
+﻿using BusinessLogicLayer.DataBaseContext;
+using BusinessLogicLayer.Interfaces;
 using ConsoleApp31.Menu;
 
 namespace ConsoleApp31

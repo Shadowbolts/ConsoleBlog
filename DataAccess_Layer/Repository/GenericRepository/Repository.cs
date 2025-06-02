@@ -1,4 +1,4 @@
-﻿using BusinessLogic_Layer.DataBaseContext;
+﻿using BusinessLogicLayer.DataBaseContext;
 using ConsoleApp31.DataBase;
 using Microsoft.EntityFrameworkCore;
 

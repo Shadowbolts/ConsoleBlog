@@ -1,9 +1,9 @@
-﻿using BusinessLogic_Layer.Interfaces;
+﻿using BusinessLogicLayer.Interfaces;
 using ConsoleApp31.Entity;
-using DataAccessLayer.DataTransferObjects;
 using DataAccessLayer.Interfaces.UnitOfWorkInterface;
+using BusinessLogicLayer.DataTransferObjects.CommentDtos;
 
-namespace BusinessLogic_Layer.Services
+namespace BusinessLogicLayer.Services
 {
     public class CommentService : ICommentService
     {
@@ -12,7 +12,7 @@ namespace BusinessLogic_Layer.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public void AddComment(CommentDto dto)
+        public void AddComment(CommentCreateDto dto)
         {
             var comment = new CommentaryEntity
             {
@@ -32,22 +32,24 @@ namespace BusinessLogic_Layer.Services
                 _unitOfWork.SaveChanges();
             }
         }
-        public void UpdateComment(CommentDto dto)
+        public void UpdateComment(CommentUpdateDto dto)
         {
-            var comments = _unitOfWork.Comments.GetById(dto.Id);
+            var comments = _unitOfWork.Comments.GetById(dto.CommentId);
             comments.Content = dto.Content;
             _unitOfWork.Comments.Update(comments);
             _unitOfWork.SaveChanges();
         }
         public IEnumerable<CommentDto> GetAllComments()
         {
-            var comments = _unitOfWork.Comments.GetAll();
+            var comments = _unitOfWork.Comments.GetAllWithUsersAndBlogs();
 
             return comments.Select(c => new CommentDto
             {
+                CommentId = c.Id,
+                UserId = c.UserId,
+                BlogId = c.BlogId,
                 Content = c.Content,
-                User = c.User?.Login,
-                Id = c.Id
+                User = c.User?.Login
             });
         }
 
@@ -59,7 +61,7 @@ namespace BusinessLogic_Layer.Services
             {
                 Content = c.Content,
                 User = c.User?.Login,
-                Id = c.Id
+                CommentId = c.Id
             });
         }
     }

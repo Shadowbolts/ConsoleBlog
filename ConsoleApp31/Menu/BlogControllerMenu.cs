@@ -1,5 +1,5 @@
-﻿using BusinessLogic_Layer.Interfaces;
-using BusinessLogic_Layer.Services;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using ConsoleApp31.Enums;
 using ConsoleApp31.Menu.BlogControllerSubMenus;
 

@@ -1,4 +1,4 @@
-﻿using BusinessLogic_Layer.DataBaseContext;
+﻿using BusinessLogicLayer.DataBaseContext;
 using ConsoleApp31.Entity;
 using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
 using DataAccessLayer.Repository.GenericRepository;

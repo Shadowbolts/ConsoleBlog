@@ -1,4 +1,4 @@
-﻿using BusinessLogic_Layer.DataBaseContext;
+﻿using BusinessLogicLayer.DataBaseContext;
 using ConsoleApp31.Entity;
 using DataAccessLayer.Interfaces.EntityRepositoryIntefaces;
 using DataAccessLayer.Repository.GenericRepository;
@@ -14,6 +14,13 @@ namespace DataAccessLayer.Repository.EntityRepository
         {
             return dbSet.Where(c => c.BlogId == BlogId)
                 .Include(c => c.User)
+                .ToList();
+        }
+        public IEnumerable<CommentaryEntity> GetAllWithUsersAndBlogs()
+        {
+            return dbSet
+                .Include(c => c.User)
+                .Include(c => c.Blog)
                 .ToList();
         }
     }
